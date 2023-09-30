@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load team_tags %}
+{% if request.team %}
+  <li class="nav-item">
+    <a href="{% url 'single_team:manage_team' request.team.slug %}" class="nav-link text-dark {% if active_tab == 'manage-team' %}active bg-gradient-info text-white{% endif %}">
+      <span class="pg-icon"><i class="fa fa-gear"></i></span><span class="is-hidden-tablet-only">{% translate "My Team" %}</span>
+    </a>
+  </li>
+{% endif %}

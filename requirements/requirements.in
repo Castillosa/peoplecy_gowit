@@ -1,0 +1,26 @@
+boto3
+Django
+django-allauth
+django-allauth-2fa
+django-waffle
+psycopg2-binary
+django-environ
+djangorestframework
+drf-spectacular
+django-anymail[mailgun]  # email services
+django-hijack
+django-storages
+celery-progress
+celery
+celery[redis]
+sentry-sdk
+whitenoise[brotli]
+unidecode
+pandas
+django-celery-beat
+flower
+django-widget-tweaks
+Pillow
+django-crispy-forms
+django-floppyforms
+crispy-bootstrap5
