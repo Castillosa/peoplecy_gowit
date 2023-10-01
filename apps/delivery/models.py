@@ -1,3 +1,4 @@
+from dateutil.utils import today
 from django.db import models
 
 from apps.utils.models import BaseModel
@@ -40,11 +41,19 @@ class DeliveryContentTemplate(BaseModel):
 class DeliveryConfig(BaseModel):
     survey = models.ForeignKey("surveys.Survey", on_delete=models.CASCADE)
     brand = models.ForeignKey("companies.Brand", on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100)
     operation_type = models.ForeignKey("operations.OperationType", on_delete=models.CASCADE, null=True, blank=True)
     delivery_hour = models.TimeField(null=True, blank=True)
     delivery_days = models.CharField(max_length=100, null=True, blank=True)
-
+    repeat = models.BooleanField(default=False)
+    repeat_interval_value = models.IntegerField(null=True, blank=True)
+    INTERNAL_BLOCK_CHOICES = (
+        ('', '----'),
+        ('w', 'Semanas'),
+        ('m', 'Meses'),
+        ('y', 'Años'),
+    )
+    repeat_interval_type = models.CharField(max_length=100, choices=INTERNAL_BLOCK_CHOICES, null=True, blank=True)
     METHOD_CHOICES = (
         ("email", "Email"),
         ("sms", "SMS"),
@@ -60,6 +69,8 @@ class DeliveryConfig(BaseModel):
     reminder_retry_in_days = models.IntegerField(null=True, blank=True)
     answer_time_limit = models.IntegerField(null=True, blank=True)
     max_valid_operation_date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     ## Todo: configurar textos email y sms
 
 

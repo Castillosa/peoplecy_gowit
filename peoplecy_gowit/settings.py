@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'floppyforms',
     'crispy_bootstrap5',
+    'widget_tweaks',
 ]
 
 # Put your project-specific apps here

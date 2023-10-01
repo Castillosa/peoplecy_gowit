@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     """
     Add additional fields to the user model here.
     """
-
+    brand = models.ForeignKey("companies.Brand", on_delete=models.CASCADE, null=True, blank=True)
     avatar = models.FileField(upload_to="profile-pictures/", blank=True, validators=[validate_profile_picture])
     language = models.CharField(max_length=10, blank=True, null=True)
     timezone = models.CharField(max_length=100, blank=True, default="")

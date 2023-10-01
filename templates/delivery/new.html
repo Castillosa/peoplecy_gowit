@@ -1,6 +1,7 @@
 {% extends "web/app/app_base.html" %}
 {% load static %}
 {% load i18n %}
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
 
 {% block app %}
@@ -12,91 +13,145 @@
         </div>
     </div>
     <div class="card-body ">
-        <form method="post" action="{% url 'delivery:new' %}">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="{{ form.name.id_for_label }}">Name</label>
-                        {{ form.name }}
-                    </div>
-                </div>
-                <div class="col-md-3">
 
-                    <div class="form-group">
-                        <label for="{{ form.survey.id_for_label }}">Survey</label>
-                        {{ form.survey }}
-                    </div>
+    <form method="post" action="{% url 'delivery:new' %}" id="delivery_form">
+        {{ form.errors }}
+        {{ form.non_field_errors }}
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.name.id_for_label }}">Nombre</label>
+                    {{ form.name }}
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
-                    <div class="form-group">
-                        <label for="{{ form.is_active.id_for_label }}">Active</label>
-                        {{ form.is_active }}
-                    </div>
-
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.survey.id_for_label }}">Encuesta</label>
+                    {{ form.survey }}
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.is_active.id_for_label }}">Activo</label>
+                    {{ form.is_active }}
                 </div>
 
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12 ">
-                    <div class="form-group">
-                        <label for="{{ form.content_template.id_for_label }}">Elige plantilla de contenido de email / sms</label>
-                        {{ form.content_template }}
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.end_date.id_for_label }}">Fecha de inicio</label>
+                    {{ form.start_date }}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.start_date.id_for_label }}">Fecha de finalización</label>
+                    {{ form.end_date }}
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.content_template.id_for_label }}">Elige plantilla de
+                        contenido de email /
+                        sms</label>
+                    {{ form.content_template }}
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row  mt-3">
+            <div class="col-md-6">
+                <div class="form-group text-center">
+                    <label class="m-0 text-bold" for="{{ form.delivery_days.id_for_label }}">Dias de envio</label>
+                    <div class="row d-flex justify-content-center">
+                        {% for choice in form.delivery_days.field.choices %}
+                            <div class="col-md-1 pe-3">
+                                <input class='form-check-input' type="checkbox" name="delivery_days"
+                                       value="{{ choice.0 }}"
+                                       id="id_delivery_days_{{ forloop.counter }}">
+                                <label class="m-0 text-bold"
+                                       for="id_delivery_days_{{ forloop.counter }}">{{ choice.1|slice:'2' }}</label>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <div class="col-md-6"></div>
             </div>
-            <div class="row  mt-3">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.delivery_hour.id_for_label }}">Hora de envío</label>
+                    {{ form.delivery_hour }}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 mt-3">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.repeat.id_for_label }}">¿Repetir?</label>
+                    {{ form.repeat }}
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+        <div id="repeat_fields" class="mt-1 invisible">
+            <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group text-center">
-                        <label for="{{ form.delivery_days.id_for_label }}">Delivery Days</label>
-                        <div class="row d-flex justify-content-center">
-                            {% for choice in form.delivery_days.field.choices %}
-                                <div class="col-md-1 pe-3">
-                                    <input class='form-check-input' type="checkbox" name="delivery_days"
-                                           value="{{ choice.0 }}"
-                                           id="id_delivery_days_{{ forloop.counter }}">
-                                    <label for="id_delivery_days_{{ forloop.counter }}">{{ choice.1|slice:'2' }}</label>
-                                </div>
-                            {% endfor %}
+                    <div class="form-group d-flex justify-content-start align-items-center">
+                        <label class="m-0 text-bold" for="{{ form.repeat_interval_value.id_for_label }}">Repetir
+                            cada</label>
+                        <div class="col-md-4 m-2">
+                            {{ form.repeat_interval_value }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.repeat_interval_type }}
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="{{ form.delivery_hour.id_for_label }}">Delivery Hour</label>
-                        {{ form.delivery_hour }}
-                    </div>
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-6 mt-5 mb-3">
-                    <div class="form-group">
-                        <label for="{{ form.reminder.id_for_label }}">¿Enviar Recordatorio?</label>
-                        {{ form.reminder }}
-                    </div>
-                </div>
-                <div class="col-md-6">
 
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-3 mb-3">
+                <div class="form-group">
+                    <label class="m-0 text-bold" for="{{ form.reminder.id_for_label }}">¿Enviar
+                        Recordatorio?</label>
+                    {{ form.reminder }}
                 </div>
             </div>
+            <div class="col-md-6">
 
+            </div>
+        </div>
+
+
+        <div id="reminder-fields" class="invisible">
             <hr>
-
-
             <div class="row mt-3 mb-3">
                 <div class="col-md-6">
                     <div class="form-group d-flex justify-content-between align-items-center">
                         <div class="col-md-3 d-flex justify-content-end">
-                            <label for="{{ form.reminder_in_days.id_for_label }}" class="m-0">Recordarío en</label>
+                            <label class="m-0 text-bold" for="{{ form.reminder_in_days.id_for_label }}">Recordarío
+                                en</label>
                         </div>
                         <div class="col-md-4 mr-3">
                             {{ form.reminder_in_days }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 text-bold">
                             dias
                         </div>
                     </div>
@@ -104,7 +159,8 @@
                 <div class="col-md-6 d-flex justify-content-start align-items-center">
                     <div class="col-md-2 ">
                         <div class="form-group">
-                            <label for="{{ form.reminder_delivery_hour.id_for_label }}" class="m-0">Hora</label>
+                            <label class="m-0 text-bold" for="{{ form.reminder_delivery_hour.id_for_label }}"
+                                   class="m-0">Hora</label>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -119,14 +175,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group text-center">
-                        <label for="{{ form.reminder_in_days.id_for_label }}">Reminder Days</label>
+                        <label class="m-0 text-bold" for="{{ form.reminder_in_days.id_for_label }}">Reminder
+                            Days</label>
                         <div class="row d-flex justify-content-center">
                             {% for choice in form.reminder_delivery_days.field.choices %}
                                 <div class="col-md-1 pe-3">
                                     <input class='form-check-input' type="checkbox" name="delivery_days"
                                            value="{{ choice.0 }}"
                                            id="id_delivery_days_{{ forloop.counter }}">
-                                    <label for="id_delivery_days_{{ forloop.counter }}">{{ choice.1|slice:'2' }}</label>
+                                    <label class="m-0 text-bold"
+                                           for="id_delivery_days_{{ forloop.counter }}">{{ choice.1|slice:'2' }}</label>
                                 </div>
                             {% endfor %}
                         </div>
@@ -140,10 +198,11 @@
                 <div class="col-md-6">
                     <div class="form-group d-flex justify-content-between align-items-center">
                         <div class="col-md-3 d-flex justify-content-end">
-                            <label for="{{ form.reminder_max_tries.id_for_label }}" class="m-0">Intentos Máximos</label>
+                            <label class="m-0 text-bold" for="{{ form.reminder_max_tries.id_for_label }}" class="m-0">Intentos
+                                Máximos</label>
                         </div>
                         <div class="col-md-4 mr-3">
-                        {{ form.reminder_max_tries }}
+                            {{ form.reminder_max_tries }}
                         </div>
                         <div class="col-md-4">
 
@@ -151,66 +210,79 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.reminder_retry_in_days.id_for_label }}">Reminder Retry in Days</label>#}
-{#                        {{ form.reminder_retry_in_days }}#}
-{#                    </div>#}
+                    {#                    <div class="form-group">#}
+                    {#                        <label class="m-0 text-bold"  for="{{ form.reminder_retry_in_days.id_for_label }}">Reminder Retry in Days</label>#}
+                    {#                        {{ form.reminder_retry_in_days }}#}
+                    {#                    </div>#}
                 </div>
             </div>
 
-{#            <div class="row">#}
-{#                <div class="col-md-6">#}
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.reminder_retry_in_days.id_for_label }}">Reminder Retry in Days</label>#}
-{#                        {{ form.reminder_retry_in_days }}#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="col-md-6">#}
-{#                    <!-- Espacio vacío -->#}
-{#                </div>#}
-{#            </div>#}
-{##}
-{#            <div class="row">#}
-{#                <div class="col-md-6">#}
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.answer_time_limit.id_for_label }}">Answer Time Limit</label>#}
-{#                        {{ form.answer_time_limit }}#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="col-md-6">#}
-{#                    <!-- Espacio vacío -->#}
-{#                </div>#}
-{#            </div>#}
-{##}
-{#            <div class="row">#}
-{#                <div class="col-md-6">#}
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.max_valid_operation_date.id_for_label }}">Max Valid Operation Date</label>#}
-{#                        {{ form.max_valid_operation_date }}#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="col-md-6">#}
-{#                    <!-- Espacio vacío -->#}
-{#                </div>#}
-{#            </div>#}
-    </div>
+            {#            <div class="row">#}
+            {#                <div class="col-md-6">#}
+            {#                    <div class="form-group">#}
+            {#                        <label class="m-0 text-bold"  for="{{ form.reminder_retry_in_days.id_for_label }}">Reminder Retry in Days</label>#}
+            {#                        {{ form.reminder_retry_in_days }}#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <div class="col-md-6">#}
+            {#                    <!-- Espacio vacío -->#}
+            {#                </div>#}
+            {#            </div>#}
+            {##}
+            {#            <div class="row">#}
+            {#                <div class="col-md-6">#}
+            {#                    <div class="form-group">#}
+            {#                        <label class="m-0 text-bold"  for="{{ form.answer_time_limit.id_for_label }}">Answer Time Limit</label>#}
+            {#                        {{ form.answer_time_limit }}#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <div class="col-md-6">#}
+            {#                    <!-- Espacio vacío -->#}
+            {#                </div>#}
+            {#            </div>#}
+            {##}
+            {#            <div class="row">#}
+            {#                <div class="col-md-6">#}
+            {#                    <div class="form-group">#}
+            {#                        <label class="m-0 text-bold"  for="{{ form.max_valid_operation_date.id_for_label }}">Max Valid Operation Date</label>#}
+            {#                        {{ form.max_valid_operation_date }}#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <div class="col-md-6">#}
+            {#                    <!-- Espacio vacío -->#}
+            {#                </div>#}
+            {#            </div>#}
+        </div>
 
-    <!-- Continúa este patrón para el resto de grupos de campos -->
+        <!-- Continúa este patrón para el resto de grupos de campos -->
 
-
+        <div class="row d-flex justify-content-end">
+            <div class="col-md-2">
+            <button id="btnSubmit" class="btn btn-secondary"> Enviar</button>
+            </div>
+        </div>
+        <input type="hidden" name="brand" value="{{ request.user.brand_id }}">
     </form>
+    </div>
 
 {% endblock %}
 
 
 {% block page_js %}
     <script type="text/javascript">
+         document.getElementById('btnSubmit').addEventListener('click', (evt) => {
+            evt.preventDefault();
+            document.getElementById('delivery_form').submit()
+        })
         document.addEventListener("DOMContentLoaded", function () {
+
+
             flatpickr("#{{ form.delivery_hour.id_for_label }}", {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true,
+                defaultTime: '18:00'
             });
 
             flatpickr("#{{ form.reminder_deliver_hour.id_for_label }}", {
@@ -218,10 +290,40 @@
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true,
+                defaultTime: '18:00'
             });
 
 
+            flatpickr("#{{ form.start_date.id_for_label }}", {
+                dateFormat: "d-m-Y",
+                minDate: "today",
+                defaultDate: "today",
+            });
+
+            flatpickr("#{{ form.end_date.id_for_label }}", {
+                dateFormat: "d-m-Y",
+                minDate: "today",
+            });
+
+
+            document.getElementById('id_reminder').addEventListener('change', (evt) => {
+                if (evt.target.checked) {
+                    document.getElementById('reminder-fields').classList.remove('invisible')
+                } else {
+                    document.getElementById('reminder-fields').classList.add('invisible')
+                }
+            })
+
+
+            document.getElementById('id_repeat').addEventListener('change', (evt) => {
+                if (evt.target.checked) {
+                    document.getElementById('repeat_fields').classList.remove('invisible')
+                } else {
+                    document.getElementById('repeat_fields').classList.add('invisible')
+                }
+            })
+
+
         });
-    </script>
     </script>
 {% endblock page_js %}
