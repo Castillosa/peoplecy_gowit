@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 
 from apps.delivery.forms import DeliveryConfigForm
+from apps.delivery.models import DeliveryConfig
 
 
 # Create your views here.
 def home(request):
-    return render(request, "delivery/home.html", {})
+    delivery_configs = DeliveryConfig.objects.filter(brand=request.user.brand)
+    return render(request, "delivery/list.html", {'delivery_configs': delivery_configs})
 
 
 def create(request):

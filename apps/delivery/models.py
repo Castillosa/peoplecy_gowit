@@ -55,10 +55,11 @@ class DeliveryConfig(BaseModel):
     )
     repeat_interval_type = models.CharField(max_length=100, choices=INTERNAL_BLOCK_CHOICES, null=True, blank=True)
     METHOD_CHOICES = (
+        ('both', 'Email y SMS'),
         ("email", "Email"),
         ("sms", "SMS"),
-        ('both', 'Both')
     )
+    method = models.CharField(max_length=20, choices=METHOD_CHOICES,default='both')
     content_template = models.ForeignKey(DeliveryContentTemplate, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     reminder = models.BooleanField(default=False)

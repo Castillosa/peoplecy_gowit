@@ -16,6 +16,10 @@ class DeliveryConfigForm(forms.ModelForm):
         input_formats=['%d-%m-%Y'],
         widget=forms.DateInput(format='%d-%m-%Y')
     )
+    delivery_hour = forms.TimeField(
+        input_formats=['%H:%i'],
+        widget=forms.TimeInput(format='%H:%i')
+    )
     delivery_days = forms.MultipleChoiceField(
         choices=[
             ('Lunes', 'Lunes'),

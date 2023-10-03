@@ -58,7 +58,12 @@
 
         <hr>
         <div class="row">
-            <div class="col-md-12 ">
+            <div class="col-md-6">
+                <label class="m-0 text-bold" for="{{ form.method.id_for_label }}">Elige plantilla de
+                        Metodo de envio</label>
+                    {{ form.method }}
+            </div>
+            <div class="col-md-6 ">
                 <div class="form-group">
                     <label class="m-0 text-bold" for="{{ form.content_template.id_for_label }}">Elige plantilla de
                         contenido de email /
@@ -66,7 +71,7 @@
                     {{ form.content_template }}
                 </div>
             </div>
-            <div class="col-md-6"></div>
+
         </div>
         <div class="row  mt-3">
             <div class="col-md-6">
@@ -216,42 +221,6 @@
                     {#                    </div>#}
                 </div>
             </div>
-
-            {#            <div class="row">#}
-            {#                <div class="col-md-6">#}
-            {#                    <div class="form-group">#}
-            {#                        <label class="m-0 text-bold"  for="{{ form.reminder_retry_in_days.id_for_label }}">Reminder Retry in Days</label>#}
-            {#                        {{ form.reminder_retry_in_days }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#                <div class="col-md-6">#}
-            {#                    <!-- Espacio vacío -->#}
-            {#                </div>#}
-            {#            </div>#}
-            {##}
-            {#            <div class="row">#}
-            {#                <div class="col-md-6">#}
-            {#                    <div class="form-group">#}
-            {#                        <label class="m-0 text-bold"  for="{{ form.answer_time_limit.id_for_label }}">Answer Time Limit</label>#}
-            {#                        {{ form.answer_time_limit }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#                <div class="col-md-6">#}
-            {#                    <!-- Espacio vacío -->#}
-            {#                </div>#}
-            {#            </div>#}
-            {##}
-            {#            <div class="row">#}
-            {#                <div class="col-md-6">#}
-            {#                    <div class="form-group">#}
-            {#                        <label class="m-0 text-bold"  for="{{ form.max_valid_operation_date.id_for_label }}">Max Valid Operation Date</label>#}
-            {#                        {{ form.max_valid_operation_date }}#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#                <div class="col-md-6">#}
-            {#                    <!-- Espacio vacío -->#}
-            {#                </div>#}
-            {#            </div>#}
         </div>
 
         <!-- Continúa este patrón para el resto de grupos de campos -->

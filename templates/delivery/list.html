@@ -1,0 +1,100 @@
+{% extends "web/app/app_base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block app %}
+    <div class="container-fluid py-4">
+        <div class="row d-flex align-items-end">
+            <div class="col-3">
+                <a class="btn btn-secondary" href="{% url 'delivery:new' %}">Nuevo Envio</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-info shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Envios Configurados</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Nombre
+                                    </th>
+                                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Encuesta
+                                    </th>
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Operacion
+                                    </th>
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Estado
+                                    </th>
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Dias de envio
+                                    </th>
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Hora de envío
+                                    </th>
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        Emails envíados
+                                    </th >
+                                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
+                                        SMS envíados
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {% for delivery in delivery_configs %}
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ delivery.name|title }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ delivery.survey }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ delivery.operation }}</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-success">
+                                                {% if delivery.status == 'True' %}
+                                                    Activo
+                                                {% else %}
+                                                    Inactivo
+                                                {% endif %}
+
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-dark text-xs font-weight-bold">{{ delivery.delivery_days}}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                             <span class="text-dark text-xs font-weight-bold">{{ delivery.delivery_hour }}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                             <span class="text-dark text-xs font-weight-bold">0</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                             <span class="text-dark text-xs font-weight-bold">0</span>
+                                        </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
